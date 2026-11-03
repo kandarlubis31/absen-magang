@@ -1,23 +1,61 @@
 # absen-magang
 
-Aplikasi **absensi magang** berbasis Laravel dengan panel khusus mentor & API mobile.
+Attendance system for interns: a Laravel web app with a mentor panel, plus a Sanctum-authenticated
+API consumed by a companion Expo mobile app in `absensimagang-mobile/`.
 
-## Fitur Utama
-- Check-in / check-out absensi harian (web + API mobile)
-- Dashboard peserta magang (mahasiswa) dengan profil & ganti password
-- Panel mentor: pantau mahasiswa, edit data, export rekap Excel (maatwebsite/excel)
-- Middleware `RedirectIfMentor` & `role:mentor` untuk pemisahan role
-- API Sanctum untuk aplikasi mobile (`absensimagang-mobile/`)
+## What it covers
 
-## Tech Stack
-Laravel · Sanctum · maatwebsite/excel · Tailwind + Vite · Bootstrap
+- **Daily check-in / check-out** for interns, available both from the web app and from the mobile
+  client through the same API.
+- **Intern dashboard** — profile and password change.
+- **Mentor panel** — monitor assigned interns, correct their records, and export a recap to Excel.
+- **Role separation** enforced by middleware, not by hiding buttons: `RedirectIfMentor` and the
+  `role:mentor` guard decide what a session is allowed to reach.
+- **Admin-facing web controllers** for the mentor side of the workflow.
 
-## Menjalankan
+## Stack
+
+Laravel · Sanctum (token auth) · maatwebsite/excel · Blade · Tailwind + Vite · Bootstrap ·
+Expo / React Native (mobile)
+
+## Structure
+
+```
+app/Http/Controllers/Api/        mobile API (auth, attendance)
+app/Http/Controllers/Web/        mentor-facing pages
+app/Http/Middleware/             role guards
+absensimagang-mobile/            Expo app (expo-router: (auth), (app), (tabs))
+```
+
+## Setup
+
 ```bash
 composer install
+cp .env.example .env
+php artisan key:generate
 php artisan migrate --seed
 npm install && npm run build
 php artisan serve
 ```
 
-Lihat `CONTEXT.md` di folder ini untuk detail arsitektur.
+The mobile client points at the same API base URL; set it in the Expo app's configuration before
+running it against your instance.
+
+## Mobile client
+
+`absensimagang-mobile/` is an Expo project using file-based routing, with an `(auth)` group for
+login and an `(app)` group for the authenticated tabs. It authenticates with a Sanctum token and
+uses the same endpoints as the web app.
+
+## Notes
+
+- Seeders create the demo accounts and sample attendance rows; do not run `migrate:fresh --seed`
+  against data you care about.
+- Excel export is handled by `maatwebsite/excel`, so large exports are streamed rather than held
+  in memory.
+- Internship records are personal data. If you deploy this, restrict access, and do not commit a
+  populated `.env` or database dump.
+
+## License
+
+MIT

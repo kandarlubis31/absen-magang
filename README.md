@@ -56,6 +56,14 @@ uses the same endpoints as the web app.
 - Internship records are personal data. If you deploy this, restrict access, and do not commit a
   populated `.env` or database dump.
 
+---
+
+## Bahasa Indonesia
+
+**absen-magang** adalah sistem absensi peserta magang: aplikasi web Laravel dengan panel mentor, plus API ber-autentikasi Sanctum yang dipakai aplikasi mobile Expo pendamping di `absensimagang-mobile/`.
+
+---
+
 ## License
 
 MIT

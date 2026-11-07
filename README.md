@@ -6,11 +6,11 @@ API consumed by a companion Expo mobile app in `absensimagang-mobile/`.
 ## What it covers
 
 - **Daily check-in / check-out** for interns, available both from the web app and from the mobile
- client through the same API.
+  client through the same API.
 - **Intern dashboard** — profile and password change.
 - **Mentor panel** — monitor assigned interns, correct their records, and export a recap to Excel.
 - **Role separation** enforced by middleware, not by hiding buttons: `RedirectIfMentor` and the
- `role:mentor` guard decide what a session is allowed to reach.
+  `role:mentor` guard decide what a session is allowed to reach.
 - **Admin-facing web controllers** for the mentor side of the workflow.
 
 ## Stack
@@ -50,11 +50,11 @@ uses the same endpoints as the web app.
 ## Notes
 
 - Seeders create the demo accounts and sample attendance rows; do not run `migrate:fresh --seed`
- against data you care about.
+  against data you care about.
 - Excel export is handled by `maatwebsite/excel`, so large exports are streamed rather than held
- in memory.
+  in memory.
 - Internship records are personal data. If you deploy this, restrict access, and do not commit a
- populated `.env` or database dump.
+  populated `.env` or database dump.
 
 ---
 
